@@ -4,10 +4,13 @@ import 'dart:convert';
 
 import 'package:http/http.dart' as http;
 
-String apiKey = "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";
+//Please Comment-out
+//String apiKey = "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";
 
 class ApiServices {
-  static String baseUrl = "https://api.openai.com/v1/completions";
+
+//Please Comment-out
+  //static String baseUrl = "https://api.openai.com/v1/completions";
 
   static Map<String, String> header = {
     'Content-Type': 'application/json',
