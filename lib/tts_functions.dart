@@ -9,9 +9,9 @@ class TextToSpeech {
     // print("All Language: $response");
 
     tts.setLanguage("en-US");
-    tts.setPitch(1.0);
-    tts.setSpeechRate(0.0);
-    tts.setVolume(1.0);
+    // tts.setPitch(1.0);
+    // tts.setSpeechRate(0.0);
+    // tts.setVolume(1.0);
   }
 
   static speak(String text) async {

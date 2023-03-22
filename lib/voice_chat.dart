@@ -44,10 +44,10 @@ class _VoiceChatBotState extends State<VoiceChatBot> {
         child: GestureDetector(
           onTapDown: (details) async {
             if (!isListening) {
+              text = "Listening...";
               var available = await speechToText.initialize();
               if (available) {
                 setState(() {
-                  //text = "Listening...";
                   isListening = true;
                   speechToText.listen(onResult: (result) {
                     setState(() {
@@ -65,20 +65,7 @@ class _VoiceChatBotState extends State<VoiceChatBot> {
             });
             await speechToText.stop();
 
-            // messages.add(ChatMessage(text: text, type: ChatMessageType.user));
-            // var msg = await ApiServices.sendMessage(text);
-            // //msg = msg.trim();
-            //
-            // setState(() {
-            //   messages.add(ChatMessage(text: msg, type: ChatMessageType.bot));
-            // });
-            //
-            // Future.delayed(const Duration(milliseconds: 500),(){
-            //   TextToSpeech.speak(msg);
-            // });
-
-
-            if(text.isNotEmpty ) {
+            if(text.isNotEmpty && text != "Hold the button and start speaking..." && text != "Listening...") {
               messages.add(ChatMessage(text: text, type: ChatMessageType.user));
               print("<<<----Your Voice---->>>: $text");
               var msg = await ApiServices.sendMessage(text);
@@ -115,48 +102,41 @@ class _VoiceChatBotState extends State<VoiceChatBot> {
         centerTitle: true,
         title: const Text("Speech To Text"),
       ),
-      body: Container(
-        //padding: const EdgeInsets.symmetric(horizontal: 18, vertical: 18),
-        child: Column(
-          children: [
-            const SizedBox(height: 5,),
-            Padding(
-              padding: const EdgeInsets.all(8.0),
-              child: Text(
-                text,
-                style: TextStyle(
-                    fontSize: 18,
-                    color: isListening ? Colors.black87 : Colors.black38,
-                    fontWeight: FontWeight.w500),
+      body: Column(
+        children: [
+          const SizedBox(height: 5,),
+          Padding(
+            padding: const EdgeInsets.all(8.0),
+            child: Text(
+              text,
+              style: TextStyle(
+                  fontSize: 18,
+                  color: isListening ? Colors.black87 : Colors.black38,
+                  fontWeight: FontWeight.w500),
+            ),
+          ),
+          const SizedBox(height: 5,),
+          Expanded(
+            child: Container(
+              padding: const EdgeInsets.all(10),
+              child: ListView.builder(
+                  physics: const BouncingScrollPhysics(),
+                  controller: scrollController,
+                  shrinkWrap: true,
+                  itemCount: messages.length,
+                  itemBuilder: (BuildContext context, int index) {
+
+                    var chat = messages[index];
+
+                    return chatBubble(
+                        chatText: chat.text,
+                        type: chat.type
+                    );
+                  }
               ),
             ),
-            const SizedBox(height: 5,),
-            Expanded(
-              child: Container(
-                padding: const EdgeInsets.all(10),
-                decoration: BoxDecoration(
-                  //color: const Color(0xFF36454F),
-                  //borderRadius: BorderRadius.circular(10),
-                ),
-                child: ListView.builder(
-                    physics: const BouncingScrollPhysics(),
-                    controller: scrollController,
-                    shrinkWrap: true,
-                    itemCount: messages.length,
-                    itemBuilder: (BuildContext context, int index) {
-
-                      var chat = messages[index];
-
-                      return chatBubble(
-                          chatText: chat.text,
-                          type: chat.type
-                      );
-                    }
-                ),
-              ),
-            ),
-          ],
-        ),
+          ),
+        ],
       ),
     );
   }
