@@ -10,7 +10,7 @@ import '../models/chat_model.dart';
 import '../models/models_model.dart';
 
 class ApiServices {
-  static String baseUrl = "https://api.openai.com/v1/completions";
+  //static String baseUrl = "https://api.openai.com/v1/completions";
 
   static Map<String, String> header = {
     'Content-Type': 'application/json',
