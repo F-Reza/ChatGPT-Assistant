@@ -39,6 +39,9 @@ dependencies:
   avatar_glow:
   speech_to_text:
   http:
+  provider:
+  flutter_spinkit:
+  animated_text_kit:
 
 dev_dependencies:
   flutter_test:
